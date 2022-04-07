@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Pull') {
             steps {
-            git branch: 'main', url: 'https://github.com/Swarupwalbinde/flaimkaiser.git'
+            git 'https://github.com/swapnil-007-design/studentapp-ui.git'
             }
         }
          stage('Build') {
