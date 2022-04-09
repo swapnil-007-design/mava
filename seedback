@@ -1,0 +1,58 @@
+pipelineJob('trial') {
+
+  description('')
+
+  displayName('trial')
+
+  configure { flowdefinition ->
+
+    flowdefinition / 'actions' << 'org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction'(plugin:'pipeline-model-definition@2.2075.vce74e77b_ce40')
+
+    flowdefinition / 'actions' << 'org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction'(plugin:'pipeline-model-definition@2.2075.vce74e77b_ce40') {
+
+      'jobProperties'()
+
+      'triggers'()
+
+      'parameters'()
+
+      'options'()
+
+    }
+
+    flowdefinition << delegate.'definition'(class:'org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition',plugin:'workflow-cps@2683.vd0a_8f6a_1c263') {
+
+      'script'('''pipeline {
+            agent any
+
+            stages {
+                  stage(\'pull\') {
+                        steps {
+                              git \'https://github.com/swapnil-007-design/aws-cloudformation-templates.git\'
+                        }
+                  }
+                  stage(\'Build\') {
+                        steps {
+                              echo \'Building..\'
+                        }
+                  }
+                  stage(\'Test\') {
+                        steps {
+                              echo \'Testing..\'
+                        }
+                  }
+                  stage(\'Deploy\') {
+                        steps {
+                              echo \'Deploying....\'
+                        }
+                  }
+            }
+      }''')
+
+      'sandbox'(true)
+
+    }
+
+  }
+
+}
